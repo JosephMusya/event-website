@@ -8,6 +8,8 @@ class Event(models.Model):
     location = models.CharField(max_length=100,blank=False,null=False)
     about = models.TextField(max_length=500,blank=True,null=True)
     date = models.CharField(max_length=50)
+    # capacity = models.IntegerField(null=True)
+    
     pic = models.ImageField(upload_to='',default='media/default.jpg')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

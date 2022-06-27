@@ -1,0 +1,42 @@
+{% extends 'cover.html' %} {% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-8 col-lg-6 card shadow text-white" style="background-color:rgb(8, 34, 59)">
+            <div class="card-body">
+                <h5 class="card-title text-center badge bg-primary fs-5">Event Creator</h5>
+                <hr>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="mb-3">
+                            <label for="topic">Topic <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" Required name="Topic" placeholder="Event Topic...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="location">Location <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" Required name="Location" placeholder="Event Location">
+                        </div>
+                        <div class="mb-3">
+                            <label for="about">About Event <span class="text-danger">*</span></label>
+                            <textarea class="form-control" Required name="About" id="" cols="30" rows="5" placeholder="Event Description"></textarea>
+
+                        </div>
+                        <div class="mb-3">
+                            <label for="date">Date <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" Required name="Date" placeholder="Date">
+                        </div>
+                        <div class="mb-3">
+                            <label for="">Select Image</label>
+                            <input type="file" name="image" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn bg-primary text-white">Create</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

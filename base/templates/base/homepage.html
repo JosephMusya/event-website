@@ -1,0 +1,47 @@
+{% extends 'cover.html'%} {%load static %}{%block content%}
+<div class="container">
+    <div class="row mt-2">
+        <div class="col-12 col-sm-12 col-md-10 col-lg-9">
+            <div class="src d-flex">
+                <h5 class="badge fs-5 text-dark border ms-3">Events</h5>
+                <form action="" method="POST">
+                    {%csrf_token%}
+                    <input type="text" class="form-control ms-2" placeholder="Search events...">
+                </form>
+            </div>
+            <div class="container justify-content-center">
+                {% for event in events%}
+                <div class="row  border rounded-2 shadow-lg py-2 px-2">
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-7">
+                        <a href="{% url 'event' event.id%} " class="text-decoration-none">
+                            <p class="card-text text-primary fw-bold fs-5">{{event.topic}}</p>
+                        </a>
+                        <p class="text-dark">
+                            {{event.about}}
+                        </p>
+                        <p class="text-warning"># Spots remaining</p>
+                        <div class="d-flex">
+                            <i class="material-icons">group</i>
+                            <small class="text-dark ms-2">54 Attendees</small>
+                        </div>
+                        <div class="d-flex">
+                            <i class="material-icons">map</i>
+                            <small class="ms-2">{{event.location}}</small>
+                        </div>
+                        <div class="d-flex">
+                            <i class="material-icons">map</i>
+                            <small class="text-info ms-2">Event Date: {{event.date}} </small>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-5">
+                        <a href="{% url 'event' event.id%} " class="text-decoration-none">
+                            <img src="{{event.pic.url}}" alt="Event Image" class="img-responsive card-img-top rounded shadow">
+                        </a>
+                    </div>
+                </div>
+                <hr> {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -2,15 +2,16 @@ from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
+
 class Event(models.Model):
     host = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     topic = models.CharField(max_length=50,blank=False,null=False)
     location = models.CharField(max_length=100,blank=False,null=False)
     about = models.TextField(max_length=500,blank=True,null=True)
-    date = models.CharField(max_length=50)
-    # capacity = models.IntegerField(null=True)
-    
-    pic = models.ImageField(upload_to='',default='media/default.jpg')
+    date_start = models.CharField(max_length=50,null=True)
+    date_end = models.CharField(max_length=50,null=True)
+    capacity = models.IntegerField(max_length=50,null=True)    
+    pic = models.ImageField(upload_to='',default='media/default.jpg')    
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     

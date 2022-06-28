@@ -1,7 +1,7 @@
 {% extends 'cover.html'%} {% load static %} {% block content %}
 <div class="container mt-2 py-2">
     <div class="row">
-        <div class="col-sm-12 col-md-10 col-lg-10">
+        <div class="col-sm-12 col-md-12 col-lg-11">
             <div class="card shadow-lg" style="background-color:white">
                 <div class="card-body">
                     <div class="row d-block">
@@ -61,49 +61,48 @@
                                     </button>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="row col-sm-12 col-md-6 col-lg-6 ms-3">
-                            <div class="col-12 mb-2">
+                        <div class="row col-sm-12 col-md-6 col-lg-6 ms-sm-0 ms-md-2">
+                            <div class="col-12 mb-2 gx-sm-0">
                                 <div class="d-flex">
                                     <i class="material-icons" style="color:blue">group</i>
                                     <h5 class="fw-bold ms-2">Attendees</h5>
                                 </div>
-
-                                <h5 class="badge bg-warning">No Attendees</h5>
+                                <h5 class="badge bg-warning fst-italic">No Attendees</h5>
                             </div>
                             <hr>
-                            <div class="col-12">
-                                <div class="d-flex">
-                                    <h5 class="fw-bold ms-2">Comments</h5>
-                                </div>
-                                <div class="card">
+                            <div class="col-12 gx-sm-0 gx-md-2">
+                                <h5 class="fw-bold gx-sm-0">Comments</h5>
+                                <div class="card col-12 gx-sm-0 gx-md-1">
                                     <div class="card-body">
                                         <div>
                                             {% if messages %} {% for message in messages %}
                                             <div class="">
                                                 <p>
                                                     <div class="row">
-                                                        <div class="col-2">
-                                                            <img src="{% static '/images/profile_default.jpeg' %}" alt="" class="rounded-circle bg-dark me-2" height="50" width="50">
+                                                        <div class="d-flex">
+                                                            <i class="material-icons" style="color:blue">person</i>
+                                                            <a href="{% url 'profile' message.user.id %}" class="text-decoration-none">@{{message.user}}</a>
                                                         </div>
-                                                        <div class="col-10 msg">
-                                                            {{message.body}}
-                                                            <br> @{{message.user}} {{message.created|timesince}} ago
-                                                            <br>
-
-                                                            <button class="mt-2 badge bg-info">Reply</button> {% if request.user == message.user %}
-                                                            <button id="delete" class="nav-link mt-2 me-2 badge bg-danger float-end">Delete
-                                                            </button> {% csrf_token %}
-                                                            <input type="hidden" class="message_id" name="message_id" value="{{message.id}}">
-                                                            <input type="hidden" class="message_user" name="message_user" value="{{message.user}}"> {% endif %}
-
+                                                        <div class="col-12 msg">
+                                                            <div class="d-flex gap-sm-1 gap-md-1 gap-lg-2">
+                                                                <div class="col-10">
+                                                                    {{message.body}}
+                                                                </div>
+                                                                <div class="col-1">
+                                                                    {% if request.user == message.user %}
+                                                                    <i class="material-icons " style="color:red">delete</i> {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <h6 style="color:darkgray"> {{message.created|timesince}} ago
+                                                            </h6>
+                                                            <!-- <input type="hidden" class="message_user" name="message_user" value="{{message.user}}"> -->
                                                         </div>
                                                     </div>
                                                     <hr>
                                                 </p>{%endfor%} {%else%}
                                                 <br>
-                                                <h5 class="badge bg-warning">No comments yet</h5>
+                                                <h5 class="badge bg-warning fst-italic">No comments yet</h5>
                                                 {%endif%}
                                             </div>
                                             <form action="" method="POST">
@@ -125,9 +124,9 @@
     </div>
 </div>
 
-<div class="container mt-3">
-    <a href="{{request.META.HTTP_REFERER}}" class="nav-link">
-        <h5 class="badge bg-info text-white fs-6 py-2 nav-link">Back</h5>
+<div class="mt-1">
+    <a href="{{request.META.HTTP_REFERER}}" class="nav-link px-0">
+        <h5 class="badge bg-info text-white fs-6 py-2">Back</h5>
     </a>
 </div>
 {% endblock%}

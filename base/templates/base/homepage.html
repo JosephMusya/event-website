@@ -1,7 +1,8 @@
 {% extends 'cover.html'%} {%load static %}{%block content%}
+
 <div class="container">
     <div class="row mt-2">
-        <div class="col-12 col-sm-12 col-md-10 col-lg-9">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-10">
             <div class="src d-flex">
                 <h5 class="badge fs-5 text-dark border ms-3">Events</h5>
                 <form action="" method="POST">
@@ -12,14 +13,14 @@
             <div class="container justify-content-center">
                 {% for event in events%}
                 <div class="row  border rounded-2 shadow-lg py-2 px-2">
-                    <div class="col-12 col-sm-12 col-md-8 col-lg-7">
+                    <div class="col-12 col-sm-12 col-md-8 col-lg-7 myBody">
                         <a href="{% url 'event' event.id%} " class="text-decoration-none">
                             <p class="card-text text-primary fw-bold fs-5">{{event.topic}}</p>
                         </a>
-                        <p class="text-dark">
+                        <p class="text-dark" id="details">
                             {{event.about}}
                         </p>
-                        <p class="text-warning"># Spots remaining</p>
+                        <p class="text-warning">{{event.capacity}} Spots remaining</p>
                         <div class="d-flex">
                             <i class="material-icons" style="color:rgb(41, 116, 133)">group</i>
                             <small class="text-dark ms-2">54 Attendees</small>
@@ -33,7 +34,7 @@
                             <small class="text-info ms-2">Event Date: {{event.date}} </small>
                         </div>
                     </div>
-                    <div class="col-12 col-sm-12 col-md-4 col-lg-5">
+                    <div class="col-12 col-sm-12 col-md-4 col-lg-5 mt-1">
                         <a href="{% url 'event' event.id%} " class="text-decoration-none">
                             <img src="{{event.pic.url}}" alt="Event Image" class="img-responsive card-img-top rounded shadow">
                         </a>

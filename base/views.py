@@ -32,7 +32,6 @@ from django.contrib.auth.models import User
 
 def home(request):
     events = Event.objects.all()
-    User = get_user_model()
     users = User.objects.all()
     context = {'events':events,'users':users}
     return render(request,'base/homepage.html',context)
@@ -91,13 +90,17 @@ def deleteMsg(request):
 @login_required(login_url='login')
 def createEvent(request):
     event = Event()
-    if request.method == 'POST':
+    if request.method == 'POST':        
         event.host = request.user
         event.topic = request.POST.get('Topic')
         event.location = request.POST.get('Location')
         event.about = request.POST.get('About')
-        event.date = request.POST.get('Date')
+        event.date_start = request.POST.get('Date1')
+        event.date_end = request.POST.get('Date2')
+        event.capacity = request.POST.get('capacity')
+
         event.pic = request.POST.get('Image')
+        
         event.save()
         
     return render(request,'base/create_event.html')

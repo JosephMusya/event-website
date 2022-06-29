@@ -70,7 +70,7 @@ def loginUser(request):
             login(request, user)
             return redirect('home')
 
-    return render(request, 'base/login.html')
+    return render(request, 'account/login.html')
 def logoutUser(request):
     logout(request)
     return redirect('home')
@@ -111,3 +111,10 @@ def profile(request,pk):
     events = Event.objects.filter(host=pk)
     context = {'user':user, 'events':events}
     return render(request,'base/profile.html',context)
+
+def viewAccount(request,pk):
+    user = User.objects.get(pk=pk)
+    events_hosted = Event.objects.filter(host=user)
+    context = {'user':user,'events_hosted':events_hosted}
+    return render(request,'base/view_profile.html',context)
+    

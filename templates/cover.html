@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} {% load socialaccount %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +40,10 @@
                 {% if request.user.is_authenticated %}
                 <a href="{% url 'logout' %}" class="nav-link">Logout</a>
                 <a href="{% url 'create-event'%}" class="nav-link">Create Event</a>
-                <i class="material-icons mt-1" style="color:white">person</i> {% else %}
+                <a href="{% url 'my-account' user.id %}" class="text-decoration-none">
+                    <i class="material-icons mt-1" style="color:white">person</i>
+                </a>
+                {% else %}
                 <a href="{% url 'login' %}" class="nav-link">Login</a>
                 <a href="{% url 'register' %}" class="nav-link">Register</a> {% endif %}
             </div>
@@ -50,7 +53,7 @@
     <div class="container">
         <hr>
         <div class="text-center">
-            <h6 style="color:grey">Developer Copyright. Developed 2022 DeKUT </h6>
+            <h6 style="color:grey">&copy; Developer Copyright. Developed 2022 DeKUT </h6>
         </div>
     </div>
 

@@ -20,5 +20,7 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     #This is the path where the urls are to be created
-    path('',include('base.urls'))
+    path('',include('base.urls')),
+    path('accounts/',include('allauth.urls'))
+
 ]

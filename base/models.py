@@ -1,6 +1,9 @@
 from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 # Create your models here.
 
 class Event(models.Model):
@@ -10,7 +13,7 @@ class Event(models.Model):
     about = models.TextField(max_length=500,blank=True,null=True)
     date_start = models.CharField(max_length=50,null=True)
     date_end = models.CharField(max_length=50,null=True)
-    capacity = models.IntegerField(max_length=50,null=True)    
+    capacity = models.IntegerField(null=True)    
     pic = models.ImageField(upload_to='',default='media/default.jpg')    
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)

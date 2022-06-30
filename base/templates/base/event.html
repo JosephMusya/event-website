@@ -1,119 +1,133 @@
 {% extends 'cover.html'%} {% load static %} {% block content %}
-<div class="container mt-2 py-2">
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-11">
-            <div class="card shadow-lg" style="background-color:white">
-                <div class="card-body">
-                    <div class="row d-block">
-                        <div class="col-12">
-                            <h5 style="color:gray">Saturday, {{content.date}}</h5>
-                            <h5 class="card-title fw-bolder" style="color:black">{{content.topic}}</h5>
+<div class="mt-2 py-2">
+    <div class="card col-12">
+        <div class="card-body">
+            <div class="row d-block">
+                <div class="col-sm-12 col-md-11 col-lg-10">
+                    {%if content.id in event_ids %}
+                    <h5 class="badge bg-info">You are attending this event</h5>
+                    {% endif %}
+                    <h5 style="color:gray">{{content.date_start}}</h5>
+                    <h5 class="card-title fw-bolder" style="color:black">{{content.topic}}</h5>
+                </div>
+                <div class="d-flex">
+                    <div>
+                        <i class="material-icons" style="font-size:50px;color:blue">person</i>
+                    </div>
+                    <div>
+                        <p>Event Hosted by
+                            <a href="{% url 'profile' content.host.id%}">
+                                <h6 class="fw-bold">@{{content.host}}</h6>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="d-lg-flex d-md-flex d-sm-block">
+                <div class="row col-sm-12 col-md-5 col-lg-6">
+                    <div class="mb-3">
+                        <div class="d-flex">
+                            <i class="material-icons" style="color:blue">today</i>
+                            <p class="ms-2"> Saturday, {{content.date}}
                         </div>
                         <div class="d-flex">
-                            <div>
-                                <i class="material-icons" style="font-size:50px;color:blue">person</i>
-                            </div>
-                            <div>
-                                <h6>Event Hosted by</h6>
-
-                                <a href="{% url 'profile' content.host.id%}">
-                                    <h6 class="fw-bold">@{{content.host}}</h6>
-                                </a>
-
-                            </div>
+                            <i class="material-icons" style="color:blue">alarm</i> {% if content.date_start != content.date_end %}
+                            <p class="ms-2">{{content.date_start}} to {{content.date_end}} </p class="ms-2">
+                            {% else %}
+                            <p class="ms-2">{{content.date_start}}</p class="ms-2">
+                            {% endif%}
+                        </div>
+                        </p>
+                        <div class="d-flex">
+                            <i class="material-icons" style="color:blue">house</i>
+                            <p class="ms-2">{{content.location}}</p>
+                        </div>
+                        <div class="col-sm-12 col-md-10 col-lg-9">
+                            <img src="{{content.pic.url}}" alt="Event Image" class="card-img-top" height="200" width="200">
                         </div>
                     </div>
-                    <hr>
-                    <div class="d-lg-flex d-md-flex d-sm-block">
-                        <div class="row col-sm-12 col-md-6 col-lg-6">
-                            <div class="mb-3">
-                                <div class="d-flex">
-                                    <i class="material-icons ms-0 orange600" style="color:blue">today</i>
-                                    <h6 class="ms-2"> Saturday, {{content.date}}
-                                </div>
-                                <div class="d-flex">
-                                    <i class="material-icons" style="color:blue">alarm</i>
-                                    <h6 class="ms-2">Start - Stop time</h6 class="ms-2">
-                                </div>
-                                </h6>
-                                <div class="d-flex">
-                                    <i class="material-icons" style="color:blue">house</i>
-                                    <h6 class="ms-2">{{content.location}}</h6>
-                                </div>
-                                <img src="{{content.pic.url}}" alt="Event Image" class="card-img-top" height="200" width="200">
-                            </div>
-                            <hr>
-                            <div class="mb-3">
-                                <div class="d-flex">
-                                    <i class="material-icons ms-0" style="color:cyan">dvr</i>
-                                    <h5 class="fw-bold ms-2">Details</h5>
-                                </div>
-                                <p>
-                                    {{content.about}}
-                                </p>
-                            </div>
-                            <hr>
-                            <div class="d-flex justify-content-between">
-                                <button class="btn bg-warning text-white fw-bold fs-5 py-2 px-2 ">Free Event</button>
-                                <div class="d-flex">
-                                    <button class="btn bg-info text-white fw-bolder fs-5 px-2 py-2">Join Event
-                                        <i class="material-icons">add</i>
-                                    </button>
-                                </div>
-                            </div>
+                    <div class="mb-3">
+                        <div class="d-flex">
+                            <i class="material-icons ms-0" style="color:cyan">dvr</i>
+                            <h5 class="fw-bold ms-2">Details</h5>
                         </div>
-                        <div class="row col-sm-12 col-md-6 col-lg-6 ms-sm-0 ms-md-2">
-                            <div class="col-12 mb-2 gy-sm-3 gx-sm-0">
-                                <div class="d-flex">
-                                    <i class="material-icons" style="color:blue">group</i>
-                                    <h5 class="fw-bold ms-2">Attendees</h5>
-                                </div>
-                                <h5 class="badge bg-warning fst-italic">No Attendees</h5>
-                            </div>
-                            <hr>
-                            <div class="col-12 gx-sm-0 gx-md-2">
-                                <h5 class="fw-bold gx-sm-0">Comments</h5>
-                                <div class="card col-12 gx-sm-0 gx-md-1">
-                                    <div class="card-body">
-                                        <div>
-                                            {% if messages %} {% for message in messages %}
-                                            <div class="">
-                                                <p>
-                                                    <div class="row">
-                                                        <div class="d-flex">
-                                                            <i class="material-icons" style="color:blue">person</i>
-                                                            <a href="{% url 'profile' message.user.id %}" class="text-decoration-none">@{{message.user}}</a>
+                        <p>
+                            {{content.about}}
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn bg-warning text-white fw-bold fs-5 py-2 px-2 ">Free Event</button>
+                        <div class="d-flex" id="event-box">
+                            <form action="" method='POST'>
+                                {% csrf_token %}
+                                <input type="hidden" id="event" value="{{content.id}}">
+                                <input type="hidden" id="user" value="{{request.user.id}}"> {%if content.id in event_ids %}
+                                <button id="revoke-event" class="btn bg-danger text-white fw-bolder fs-5 px-2 py-2">Revoke Event</button> {% elif content.capacity != 0 %}
+                                <button id="join-event" class="btn bg-info text-white fw-bolder fs-5 px-2 py-2">Join Event</button> {%else%}
+                                <button id="join-event" class="btn bg-danger text-white fw-bolder fs-5 px-2 py-2">NO SPACE</button> {% endif %}
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-sm-12 col-md-6 col-lg-6 ms-sm-0 ms-md-2">
+                    <div class="col-12 mb-2 gy-sm-3 gx-sm-0">
+                        <div class="d-flex">
+                            <i class="material-icons" style="color:blue">group</i>
+                            <h5 class="fw-bold ms-2">Attendees</h5>
+                        </div>
+                        {% if attendees is None %}
+                        <h5 class="badge bg-warning fst-italic">No Attendees</h5>
+                        {%else%} {% for attendee in attendees %}
+                        <a href="{% url 'profile' attendee.user.id %}" class="text-decoration-none">
+                            <small>{{attendee.user}}</small>
+                        </a>
+                        {% endfor%} {%endif%}
+
+                    </div>
+                    <hr>
+                    <div class="col-12 gx-sm-0 gx-md-2">
+                        <h5 class="fw-bold gx-sm-0">Comments</h5>
+                        <div class="card col-12 gx-sm-0 gx-md-1">
+                            <div class="card-body">
+                                <div>
+                                    {% if messages %} {% for message in messages %}
+                                    <div class="">
+                                        <p>
+                                            <div class="row">
+                                                <div class="d-flex">
+                                                    <i class="material-icons" style="color:blue">person</i>
+                                                    <a href="{% url 'profile' message.user.id %}" class="text-decoration-none">@{{message.user}}</a>
+                                                </div>
+                                                <div class="col-12 msg">
+                                                    <div class="d-flex gap-sm-1 gap-md-1 gap-lg-2">
+                                                        <div class="col-10">
+                                                            {{message.body}}
                                                         </div>
-                                                        <div class="col-12 msg">
-                                                            <div class="d-flex gap-sm-1 gap-md-1 gap-lg-2">
-                                                                <div class="col-10">
-                                                                    {{message.body}}
-                                                                </div>
-                                                                <div class="col-1">
-                                                                    {% if request.user == message.user %}
-                                                                    <i class="material-icons " style="color:red">delete</i> {% endif %}
-                                                                </div>
-                                                            </div>
-                                                            <h6 style="color:darkgray"> {{message.created|timesince}} ago
-                                                            </h6>
-                                                            <!-- <input type="hidden" class="message_user" name="message_user" value="{{message.user}}"> -->
+                                                        <div class="col-1">
+                                                            {% if request.user == message.user %}
+                                                            <i class="material-icons " style="color:red">delete</i> {% endif %}
                                                         </div>
                                                     </div>
-                                                    <hr>
-                                                </p>{%endfor%} {%else%}
-                                                <br>
-                                                <h5 class="badge bg-warning fst-italic">No comments yet</h5>
-                                                {%endif%}
-                                            </div>
-                                            <form action="" method="POST">
-                                                {% csrf_token %}
-                                                <div class="form-group d-flex">
-                                                    <input type="text" class="form-control" Required name="message" placeholder="Type Message">
-                                                    <i type="submit" class="material-icons ms-1 mt-2">send</i>
+                                                    <h6 style="color:darkgray"> {{message.created|timesince}} ago
+                                                    </h6>
+                                                    <!-- <input type="hidden" class="message_user" name="message_user" value="{{message.user}}"> -->
                                                 </div>
-                                            </form>
-                                        </div>
+                                            </div>
+                                            <hr>
+                                        </p>{%endfor%} {%else%}
+                                        <br>
+                                        <h5 class="badge bg-warning fst-italic">No comments yet</h5>
+                                        {%endif%}
                                     </div>
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <div class="form-group d-flex">
+                                            <input type="text" class="form-control" Required name="message" placeholder="Type Message">
+                                            <i type="submit" class="material-icons ms-1 mt-2">send</i>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -124,9 +138,9 @@
     </div>
 </div>
 
-<div class="mt-1">
+<!-- <div class="mt-1">
     <a href="{{request.META.HTTP_REFERER}}" class="nav-link px-0">
         <h5 class="badge bg-info text-white fs-6 py-2">Back</h5>
     </a>
-</div>
+</div> -->
 {% endblock%}

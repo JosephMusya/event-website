@@ -1,7 +1,7 @@
 {% extends 'cover.html' %} {% block content %}
 <div class="container">
-    <div class="col-sm-12 col-md-6 col-lg-5">
-        <br>
+    <h5 class="text-primary mt-2 badge fs-5 bg-primary text-white">My Profile</h5>
+    <div class="col-sm-12 col-md-6 col-lg-5 mt-2">
         <a href="" class="text-decoration-none d-flex col-12">
             <i class="material-icons">edit</i>
             <span class="ms-2">Edit Details</span>
@@ -13,9 +13,8 @@
         <h6>Username: <span class="text-primary">@{{user.username}}</span></h6>
         <h6>Email: <span class="text-primary">{{user.email}}</span></h6>
         <div class="d-block mt-2">
-            <h5>Events Hosted</h5>
+            <h5 class="badge bg-danger">Events Hosted</h5>
             {% for event in events_hosted %}
-
             <a href="{% url 'event' event.id %}" class="text-decoration-none d-flex">
                 <h6>{{event.topic}}</h6>
                 <img src="{{ event.pic.url }}" widht="20px" height="20px" class="ms-5" alt="event image">

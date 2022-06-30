@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 #http response is used to display info in the browser
 from django.http import HttpResponse
 
-from .models import Event, Message
+from .models import Event, Message, Attendees
 
 from django.contrib.auth import get_user_model,authenticate,login,logout
 
@@ -33,11 +33,26 @@ from django.contrib.auth.models import User
 def home(request):
     events = Event.objects.all()
     users = User.objects.all()
-    context = {'events':events,'users':users}
+    if request.user.is_authenticated:
+        events_attending = Attendees.objects.filter(user = request.user)
+        event_ids = []    
+        for evts in events_attending:
+            ids = evts.event.id
+            event_ids.append(ids)
+    else:
+        event_ids = None
+    context = {'events':events,'users':users,'event_ids':event_ids}
+
     return render(request,'base/homepage.html',context)
 
 def event(request,pk):
     content = Event.objects.get(id=pk)
+    attendees = Attendees.objects.filter(event=content)
+    events_attending = Attendees.objects.filter(user = request.user)
+    event_ids = []
+    for events in events_attending:
+        ids = events.event.id
+        event_ids.append(ids)
     messages = Message.objects.filter(event_id=pk)
     if request.method == 'POST':
         message = Message()
@@ -46,8 +61,7 @@ def event(request,pk):
         message.user = user
         message.event = Event.objects.get(id=pk)
         message.save()
-        print("Message sent...")
-    context = {'content':content,'messages':messages}
+    context = {'content':content,'messages':messages,'event_ids':event_ids,'attendees':attendees}
     return render(request,'base/event.html', context)
 
 def registerUser(request):
@@ -76,15 +90,20 @@ def logoutUser(request):
     return redirect('home')
 
 @login_required(login_url='login')
-def deleteMsg(request):
-    # product_id = int(request.POST.get('product_id'))
-    message_id = int(request.POST.get('message_id'))
-    message_user = str(request.POST.get('message_user'))
+def addEvent(request):
+    attendee = Attendees()
+    event_id = int(request.POST.get('event_id'))
+    user_id = int(request.POST.get('user-id'))
 
-    msg = Message.objects.get(id=message_id)
-    if str(request.user) == message_user:
-        msg.delete()
-        print("Deleted")
+    event = Event.objects.get(id=event_id)
+    user = User.objects.get(id=user_id)
+    attendee.user = user
+    attendee.event = event
+    event.capacity = (event.capacity-1)
+    if event.capacity <= 0:
+        event.capacity = 0
+    attendee.save()
+    event.save()
     return redirect('/')
 
 @login_required(login_url='login')
@@ -105,6 +124,7 @@ def createEvent(request):
         
     return render(request,'base/create_event.html')
 
+@login_required(login_url='login')
 def profile(request,pk):
     user = User.objects.get(pk=pk)
     # profile = Profile.objects.get(pk=pk)
@@ -112,9 +132,22 @@ def profile(request,pk):
     context = {'user':user, 'events':events}
     return render(request,'base/profile.html',context)
 
+@login_required(login_url='login')
 def viewAccount(request,pk):
     user = User.objects.get(pk=pk)
     events_hosted = Event.objects.filter(host=user)
     context = {'user':user,'events_hosted':events_hosted}
     return render(request,'base/view_profile.html',context)
+
+@login_required(login_url='login')
+def revokeEvent(request):
+    event_id = int(request.POST.get('event_id'))
+    user_id = int(request.POST.get('user-id'))
+    user = User.objects.get(id=user_id)
+    user_event = Attendees.objects.filter(user=user).filter(event=event_id)
+    user_event.delete()
+    event = Event.objects.get(id=event_id)
+    event.capacity = event.capacity+1    
+    event.save()
+    return redirect('/')
     

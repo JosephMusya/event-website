@@ -35,10 +35,16 @@ class Message(models.Model):
     def __str__(self):
         return str(self.user) + ' message'
 
-class Profile(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
-    events = models.ForeignKey(Event,on_delete=models.CASCADE)
-    
+class Attendees(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)    
     def __str__(self):
-        return self.user.username
+        return str(self.user)+' '+str(self.event)
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(User,on_delete=models.CASCADE)
+#     events = models.ForeignKey(Event,on_delete=models.CASCADE)
+    
+#     def __str__(self):
+#         return self.user.username
         

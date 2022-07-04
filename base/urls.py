@@ -16,6 +16,7 @@ urlpatterns = [
     path('create-event/',createEvent, name='create-event'),
     path('profile/<str:pk>',profile, name='profile'),
     path('account/<str:pk>',viewAccount, name='my-account'),
+    path('send-message',sendMessage,name='send-message'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

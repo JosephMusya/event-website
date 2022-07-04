@@ -54,13 +54,7 @@ def event(request,pk):
         ids = events.event.id
         event_ids.append(ids)
     messages = Message.objects.filter(event_id=pk)
-    if request.method == 'POST':
-        message = Message()
-        user = request.user
-        message.body = request.POST.get('message')
-        message.user = user
-        message.event = Event.objects.get(id=pk)
-        message.save()
+    
     context = {'content':content,'messages':messages,'event_ids':event_ids,'attendees':attendees}
     return render(request,'base/event.html', context)
 
@@ -91,6 +85,7 @@ def logoutUser(request):
 
 @login_required(login_url='login')
 def addEvent(request):
+    print("Added successfully...")
     attendee = Attendees()
     event_id = int(request.POST.get('event_id'))
     user_id = int(request.POST.get('user-id'))
@@ -145,9 +140,25 @@ def revokeEvent(request):
     user_id = int(request.POST.get('user-id'))
     user = User.objects.get(id=user_id)
     user_event = Attendees.objects.filter(user=user).filter(event=event_id)
-    user_event.delete()
-    event = Event.objects.get(id=event_id)
-    event.capacity = event.capacity+1    
-    event.save()
+    if request.user == user:
+        user_event.delete()
+        event = Event.objects.get(id=event_id)
+        event.capacity = event.capacity+1    
+        event.save()
     return redirect('/')
+
+def sendMessage(request):
+    print('Sending message...........')
+    user_id = int(request.POST.get('user_id'))
+    event_id = int(request.POST.get('event_id'))
+    msg = str(request.POST.get('message'))
+    user = User.objects.get(pk=user_id)
+    event = Event.objects.get(pk=event_id)
+    print(msg)
+    if request.user == user:
+        message = Message()
+        message.user = user
+        message.event = event
+        message.body = msg
     
+    return redirect('/')

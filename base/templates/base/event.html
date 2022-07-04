@@ -1,12 +1,11 @@
 {% extends 'cover.html'%} {% load static %} {% block content %}
-<div class="mt-2 py-2">
-    <div class="card col-12">
+<div class="container mt-2 py-2">
+    <div class="card col-12 ">
         <div class="card-body">
             <div class="row d-block">
                 <div class="col-sm-12 col-md-11 col-lg-10">
                     {%if content.id in event_ids %}
-                    <h5 class="badge bg-info">You are attending this event</h5>
-                    {% endif %}
+                    <p class="badge bg-info fs-6">You are attending this event</p> {% endif %}
                     <h5 style="color:gray">{{content.date_start}}</h5>
                     <h5 class="card-title fw-bolder" style="color:black">{{content.topic}}</h5>
                 </div>
@@ -16,8 +15,9 @@
                     </div>
                     <div>
                         <p>Event Hosted by
+                            <br>
                             <a href="{% url 'profile' content.host.id%}">
-                                <h6 class="fw-bold">@{{content.host}}</h6>
+                                <span class="fw-bold">@{{content.host}}</span>
                             </a>
                         </p>
                     </div>
@@ -29,7 +29,7 @@
                     <div class="mb-3">
                         <div class="d-flex">
                             <i class="material-icons" style="color:blue">today</i>
-                            <p class="ms-2"> Saturday, {{content.date}}
+                            <p class="ms-2"> Saturday, {{content.date_start}}
                         </div>
                         <div class="d-flex">
                             <i class="material-icons" style="color:blue">alarm</i> {% if content.date_start != content.date_end %}
@@ -38,7 +38,6 @@
                             <p class="ms-2">{{content.date_start}}</p class="ms-2">
                             {% endif%}
                         </div>
-                        </p>
                         <div class="d-flex">
                             <i class="material-icons" style="color:blue">house</i>
                             <p class="ms-2">{{content.location}}</p>
@@ -67,13 +66,12 @@
                                 <button id="join-event" class="btn bg-info text-white fw-bolder fs-5 px-2 py-2">Join Event</button> {%else%}
                                 <button id="join-event" class="btn bg-danger text-white fw-bolder fs-5 px-2 py-2">NO SPACE</button> {% endif %}
                             </form>
-
                         </div>
                     </div>
                 </div>
                 <div class="row col-sm-12 col-md-6 col-lg-6 ms-sm-0 ms-md-2">
                     <div class="col-12 mb-2 gy-sm-3 gx-sm-0">
-                        <div class="d-flex">
+                        <div class="d-flex mt-sm-2">
                             <i class="material-icons" style="color:blue">group</i>
                             <h5 class="fw-bold ms-2">Attendees</h5>
                         </div>
@@ -123,8 +121,8 @@
                                     </div>
                                     <form action="" method="POST">
                                         {% csrf_token %}
-                                        <div class="form-group d-flex">
-                                            <input type="text" class="form-control" Required name="message" placeholder="Type Message">
+                                        <div id="message-box" class="form-group d-flex">
+                                            <input type="text" id="message" class="form-control" Required name="message" placeholder="Type Message">
                                             <i type="submit" class="material-icons ms-1 mt-2">send</i>
                                         </div>
                                     </form>

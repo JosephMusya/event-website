@@ -103,10 +103,15 @@
                                                         <div class="col-10">
                                                             {{message.body}}
                                                         </div>
-                                                        <div class="col-1">
-                                                            {% if request.user == message.user %}
-                                                            <i class="material-icons " style="color:red">delete</i> {% endif %}
-                                                        </div>
+                                                        <form action="" method="POST">
+                                                            {%csrf_token%}
+                                                            <div class="col-1 delete">
+                                                                {% if request.user == message.user %}
+                                                                <i class="material-icons " style="color:red">delete</i> {% endif %}
+                                                                <input type="hidden" id="user_id" value="{{request.user.id}}">
+                                                                <input type="hidden" id="msg_id" value="{{message.id}}">
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                     <h6 style="color:darkgray"> {{message.created|timesince}} ago
                                                     </h6>
@@ -123,7 +128,11 @@
                                         {% csrf_token %}
                                         <div id="message-box" class="form-group d-flex">
                                             <input type="text" id="message" class="form-control" Required name="message" placeholder="Type Message">
-                                            <i type="submit" class="material-icons ms-1 mt-2">send</i>
+                                            <input type="hidden" id="event_id" value="{{content.id}}">
+                                            <input type="hidden" id="user_id" value="{{request.user.id}}">
+                                            <button id="send" class="btn">
+                                                <i class="material-icons ms-1 mt-2">send</i>
+                                            </button>
                                         </div>
                                     </form>
                                 </div>

@@ -74,7 +74,7 @@ def loginUser(request):
         password = request.POST.get('password')
         user = authenticate(request,username=username,password=password)
         
-        if user is not None:
+        if user:
             login(request, user)
             return redirect('home')
 
@@ -112,8 +112,7 @@ def createEvent(request):
         event.date_start = request.POST.get('Date1')
         event.date_end = request.POST.get('Date2')
         event.capacity = request.POST.get('capacity')
-
-        event.pic = request.POST.get('Image')
+        event.pic = request.POST.get('image')
         
         event.save()
         
@@ -148,17 +147,24 @@ def revokeEvent(request):
     return redirect('/')
 
 def sendMessage(request):
-    print('Sending message...........')
     user_id = int(request.POST.get('user_id'))
     event_id = int(request.POST.get('event_id'))
     msg = str(request.POST.get('message'))
     user = User.objects.get(pk=user_id)
     event = Event.objects.get(pk=event_id)
-    print(msg)
     if request.user == user:
         message = Message()
         message.user = user
         message.event = event
         message.body = msg
-    
+        message.save()
+    return redirect('/')
+
+def deleteMessage(request):
+    msg_id = int(request.POST.get('msg_id'))
+    user_id = int(request.POST.get('user_id'))
+    message = Message.objects.get(pk=msg_id)
+    user = User.objects.get(pk=user_id)
+    if request.user == user:
+        message.delete()      
     return redirect('/')

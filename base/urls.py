@@ -18,6 +18,7 @@ urlpatterns = [
     path('account/<str:pk>',viewAccount, name='my-account'),
     path('send-message/',sendMessage,name='send-message'),
     path('delete-message/',deleteMessage,name='delete-message'),
+    path('search/',searchEvent,name='search'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,6 +1,6 @@
 {% extends 'cover.html' %} {% block content %}
 <div class="container mt-2">
-    <div class="row card shadow d-flex">
+    <div class="row card shadow d-flex col-12">
         <form action="" method="POST" enctype="multipart/form-data">
             <div class="d-md-flex gap-md-1 justify-content-center d-block">
                 <div class="form-group col-sm-12 col-md-5">
@@ -21,11 +21,11 @@
                 <div class="form-group col-sm-12 col-md-5">
                     <div class="mb-3">
                         <label for="date1">Start Date <span class="text-danger">*</span></label>
-                        <input type="date" min="2022-01-01T00:00" max="2023-12-31T00:00" class="form-control" Required name="Date1" value="2022-06-06" placeholder="Date">
+                        <input type="datetime-local" class="form-control" Required name="Date1" value="2022-06-06">
                     </div>
                     <div class="mb-3">
                         <label for="date2">End Date <span class="text-danger">*</span></label>
-                        <input type="date" min="2022-01-01T00:00" max="2023-12-31T00:00" class="form-control" Required name="Date2" value="2022-06-06" placeholder="Date">
+                        <input type="datetime-local" class="form-control" Required name="Date2" value="2022-06-06">
                     </div>
                     <div class="mb-3">
                         <label for="capacity">Capacity<span class="text-danger">*</span></label>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="">Select Image</label>
-                        <input type="file" name="image" class="form-control">
+                        <input type="file" name="image" accept="image/*" class="form-control">
                     </div>
                 </div>
             </div>

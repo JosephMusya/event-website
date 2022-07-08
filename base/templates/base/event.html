@@ -3,12 +3,14 @@
     <div class="card col-12 ">
         <div class="card-body">
             <div class="row d-block">
+                {% if request.user.is_authenticated %}
                 <div class="col-sm-12 col-md-11 col-lg-10">
                     {%if content.id in event_ids %}
                     <p class="badge bg-info fs-6">You are attending this event</p> {% endif %}
                     <h5 style="color:gray">{{content.date_start}}</h5>
                     <h5 class="card-title fw-bolder" style="color:black">{{content.topic}}</h5>
                 </div>
+                {% endif %}
                 <div class="d-flex">
                     <div>
                         <i class="material-icons" style="font-size:50px;color:blue">person</i>
@@ -55,8 +57,7 @@
                             {{content.about}}
                         </p>
                     </div>
-                    <div class="d-flex justify-content-between">
-                        <button class="btn bg-warning text-white fw-bold fs-5 py-2 px-2 ">Free Event</button>
+                    <div class="d-flex justify-content-center mb-2">
                         <div class="d-flex" id="event-box">
                             <form action="" method='POST'>
                                 {% csrf_token %}

@@ -62,21 +62,28 @@ $(document).ready(function() {
 
         var token = $('input[name=csrfmiddlewaretoken]').val();
 
-        $.ajax({
-            method: 'POST',
-            url: '/send-message/',
-            data: {
-                'message': message,
-                'user_id': user_id,
-                'event_id': event_id,
-                csrfmiddlewaretoken: token,
-            },
-            success: function(response) {
-                location.reload(true);
-                // console.log("Sending...")
-                //window.location.reload(true);
-            }
-        });
+        if (message) {
+            $.fn.postData()
+        } else {
+            alert('Type message')
+        }
+        $.fn.postData = function() {
+            $.ajax({
+                method: 'POST',
+                url: '/send-message/',
+                data: {
+                    'message': message,
+                    'user_id': user_id,
+                    'event_id': event_id,
+                    csrfmiddlewaretoken: token,
+                },
+                success: function(response) {
+                    location.reload(true);
+                    // console.log("Sending...")
+                    //window.location.reload(true);
+                }
+            });
+        };
     });
 });
 $(document).ready(function() {
@@ -96,8 +103,6 @@ $(document).ready(function() {
             },
             success: function(response) {
                 location.reload(true);
-                // console.log("Sending...")
-                //window.location.reload(true);
             }
         });
     });

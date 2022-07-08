@@ -2,12 +2,8 @@
 
 <div class="container mt-2">
     <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="src d-flex">
+        <div class="d-flex">
             <h5 class="badge fs-5 text-dark border">Events</h5>
-            <form action="" method="POST">
-                {%csrf_token%}
-                <input type="text" class="form-control ms-2" placeholder="Search events...">
-            </form>
         </div>
         <div class="justify-content-center">{% for event in events%}
             <div class="border col-12 rounded-2 shadow-lg py-2 px-2 d-sm-block d-md-flex d-lg-flex gap-5">
@@ -34,7 +30,7 @@
                     </div>
                     <div class="d-flex">
                         <i class="material-icons" style="color:rgb(41, 116, 133)">today</i>
-                        <small class="ms-2">Event Date: {{event.date_start}}</small>
+                        <small class="ms-2">{{event.date_start}}</small>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-5 col-lg-4 mt-1">

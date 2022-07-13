@@ -63,10 +63,12 @@ def registerUser(request):
         form = CustomUserForm(request.POST)
         if form.is_valid():
             form.save()
+            #login(request, user)
             return redirect('login')
         
     context = {'form':form}
     return render(request, 'base/register.html', context)
+
 def loginUser(request):
     if request.method == 'POST':
         username = request.POST.get('name')
@@ -99,7 +101,6 @@ def addEvent(request):
     event.save()
     return redirect('/')
 
-@login_required(login_url='login')
 def createEvent(request):
     event = Event()
     if request.method == 'POST':        
@@ -119,7 +120,6 @@ def createEvent(request):
         
     return render(request,'base/create_event.html')
 
-@login_required(login_url='login')
 def profile(request,pk):
     user = User.objects.get(pk=pk)
     # profile = Profile.objects.get(pk=pk)
@@ -147,6 +147,7 @@ def revokeEvent(request):
         event.save()
     return redirect('/')
 
+@login_required(login_url='login')
 def sendMessage(request):
     user_id = int(request.POST.get('user_id'))
     event_id = int(request.POST.get('event_id'))
@@ -161,6 +162,7 @@ def sendMessage(request):
         message.save()
     return redirect('/')
 
+@login_required(login_url='login')
 def deleteMessage(request):
     msg_id = int(request.POST.get('msg_id'))
     user_id = int(request.POST.get('user_id'))

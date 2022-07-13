@@ -116,7 +116,7 @@ def createEvent(request):
         
         event.save()
         
-        return redirect('/home')
+        return redirect('home')
         
     return render(request,'base/create_event.html')
 
@@ -172,6 +172,14 @@ def deleteMessage(request):
         message.delete()      
     return redirect('/')
 
+def deleteEvent(request):
+    event_id = int(request.POST.get('event_id'))
+    host = int(request.POST.get('host'))
+    user = User.objects.get(id=host)
+    
+    if request.user == user:
+        event = Event.objects.filter(host=user).filter(id=event_id)
+        event.delete()
 def searchEvent(request):
     events = Event.objects.filter().values_list('topic',flat=True)
     event_list = list(events)

@@ -104,3 +104,25 @@ $(document).ready(function() {
         });
     });
 });
+$(document).ready(function() {
+    $("#delete-event").click(function(e) {
+        console.log('ok clicked delete btn')
+        e.preventDefault();
+        var event_id = $(this).closest('.event-del').find('#event_id').val();
+        var host = $(this).closest('.event-del').find('#host').val();
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+
+        $.ajax({
+            method: 'POST',
+            url: '/delete-event/',
+            data: {
+                'event-id': event_id,
+                'host': host,
+                csrfmiddlewaretoken: token,
+            },
+            success: function(response) {
+                location.reload(true);
+            }
+        });
+    });
+});

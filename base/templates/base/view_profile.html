@@ -16,8 +16,15 @@
             <h5 class="badge bg-danger">Events Hosted</h5>
             {% for event in events_hosted %}
             <a href="{% url 'event' event.id %}" class="text-decoration-none d-flex">
-                <h6>{{event.topic}}</h6>
-                <img src="{{ event.pic.url }}" widht="20px" height="20px" class="ms-5" alt="event image">
+
+                <div class="d-flex col-6">
+                    <div class="col-8">
+                        <h6>{{event.topic}}</h6>
+                    </div>
+                    <div class="col-2">
+                        <img src="{{ event.pic.url }}" widht="20px" height="20px" class="ms-5" alt="event image">
+                    </div>
+                </div>
             </a>
             {%endfor%}
         </div>
